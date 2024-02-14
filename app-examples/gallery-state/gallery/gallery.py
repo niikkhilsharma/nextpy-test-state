@@ -100,6 +100,21 @@ def gallery() -> xt.Component:
     )
 
 
+@template(route="test", title="GALLERY")
+def gallery() -> xt.Component:
+    return xt.vstack(
+        xt.vstack(
+            xt.text(State.message, font_size="2em", text_color="white"),
+            xt.input(on_change=State.set_message),
+            xt.divider(),
+            align_items="center",
+        ),
+        margin_top="2em",
+        height="100%",
+        position="relative",
+        overflow_x="hidden",
+    )
+
 # Add state and page to the app.
 app = xt.App(
     stylesheets=[
