@@ -1,0 +1,34 @@
+<Fragment>
+  {isTrue(connectError !== null) ? (
+  <Fragment>
+  <Modal isOpen={connectError !== null}>
+  <ModalOverlay>
+  <ModalContent>
+  <ModalHeader>
+  {`Connection Error`}
+</ModalHeader>
+  <ModalBody>
+  <Text>
+  {`Cannot connect to server: `}
+  {(connectError !== null) ? connectError.message : ''}
+  {`. Check if server is reachable at `}
+  {getEventURL().href}
+</Text>
+</ModalBody>
+</ModalContent>
+</ModalOverlay>
+</Modal>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+<Text sx={{"fontSize": "2em", "textColor": "white"}}>
+  {state__state.message}
+</Text>****
+<DebounceInput debounceTimeout={50} element={Input} onChange={(_e0) =>{ const dispatcher = dispatchers['state.state'];
+dispatcher({ message: _e0.target.value });
+addEvents([Event("state.state.set_message", {value:_e0.target.value})], (_e0), {}) }} type={`text`} value={state__state.message}/>
+<Input onChange={(_e0) =>{ const dispatcher = dispatchers['state.state'];
+dispatcher({ message: _e0.target.value });
+addEvents([Event("state.state.set_message", {value:_e0.target.value})], (_e0), {}) }} type={`text`}/>

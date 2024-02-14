@@ -12,6 +12,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from nextpy.build.testing import AppHarness
 
 
+
 @contextmanager
 def poll_for_navigation(
     driver: WebDriver, timeout: int = 5

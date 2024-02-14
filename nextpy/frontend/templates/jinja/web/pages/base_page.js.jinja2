@@ -1,6 +1,7 @@
 {# ==============================
      UTILS.JS TEMPLATE IMPORT
 ============================== #}
+
 {# 
 Purpose:
 - Imports utility functions from the 'utils.js.jinja2' template for use in this template.
@@ -9,16 +10,19 @@ Purpose:
 {% import 'web/pages/utils.js.jinja2' as utils %}
 
 /** @jsxImportSource @emotion/react */
-
 {# ==============================
      LIBRARY IMPORTS BLOCK
 ============================== #}
+
 {# 
 Purpose:
 - Renders all required library imports for the current page or component.
 - Utilizes utility functions to generate standard imports and also handles dynamic imports.
 #}
+
+
 {%- block imports_libs %}
+     import { DispatchContext } from 'utils/context';
     {# Iterates over standard module imports and uses utility functions to render them. #}
     {% for module in imports %}
         {{- utils.get_import(module) }}
@@ -29,6 +33,7 @@ Purpose:
         {{dynamic_import}}
     {% endfor %}
 {% endblock %}
+
 
 {# ==============================
      DECLARATIONS BLOCK

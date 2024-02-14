@@ -1509,7 +1509,6 @@ class StatefulComponent(BaseComponent):
         tag_name: str,
     ) -> str:
         """Render the code for a stateful component.
-
         Args:
             component: The component to render.
             tag_name: The tag name for the stateful component (see _get_tag_name).
@@ -1518,7 +1517,7 @@ class StatefulComponent(BaseComponent):
             The rendered code.
         """
         # Memoize event triggers useCallback to avoid unnecessary re-renders.
-        memo_event_triggers = tuple(cls._get_memoized_event_triggers(component).items())
+        memo_event_triggers = tuple(cls._get_memoized_event_triggers(component,tag_name).items())
 
         # Trigger hooks stored separately to write after the normal hooks (see stateful_component.js.jinja2)
         memo_trigger_hooks = []
@@ -1562,6 +1561,7 @@ class StatefulComponent(BaseComponent):
     def _get_memoized_event_triggers(
         cls,
         component: Component,
+        tag_name,
     ) -> dict[str, tuple[Var, str]]:
         """Memoize event handler functions with useCallback to avoid unnecessary re-renders.
 
@@ -1572,6 +1572,7 @@ class StatefulComponent(BaseComponent):
             A dict of event trigger name to a tuple of the memoized event trigger Var and
             the hook code that memoizes the event handler.
         """
+        
         trigger_memo = {}
         for event_trigger, event_args in component._get_vars_from_event_triggers(
             component.event_triggers
@@ -1586,9 +1587,12 @@ class StatefulComponent(BaseComponent):
 
             # Get the actual EventSpec and render it.
             event = component.event_triggers[event_trigger]
-            rendered_chain = format.format_prop(event)
+            rendered_chain = format.format_prop(event,tag_name)
             if isinstance(rendered_chain, str):
                 rendered_chain = rendered_chain.strip("{}")
+
+            if tag_name.startswith("Input_"):
+                rendered_chain = rendered_chain+'}'
 
             # Hash the rendered EventChain to get a deterministic function name.
             chain_hash = md5(str(rendered_chain).encode("utf-8")).hexdigest()
